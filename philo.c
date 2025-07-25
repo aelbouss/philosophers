@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/25 00:19:43 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/25 02:04:28 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int     main(int ac, char **av)
         p = malloc(1 * sizeof(ph_tools_t));
         if (!p)
                 return (1);
-        if (extract_args(ac, av, p) != 0)
+        if (parse_input(p, av, ac) != 0)
                 return (1);
         printf("the  nbr of  philos : %d\n", p->ph_nbr);
         printf("the time to die : %d\n", p->time_d);
