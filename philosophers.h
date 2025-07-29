@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/27 23:19:00 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/29 06:06:29 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,39 @@
 #include <limits.h>
 
 
-// templates
-typedef struct  ph_tools_s
+typedef struct tools_s
 {
-        int     ph_nbr;
-        int     time_d;
-        int     time_s;
-        int     time_e;
         int     nbr_eats;
-}       ph_tools_t;
+        int     philo_id;
+        int     philo_n;
+	int	left_fork;
+	int	right_fork;
+	int	time_d;
+        int	time_s;
+        int	time_e;
+}       t_tools;
+
+// templates
+typedef struct  s_philo
+{
+        int		ph_nbr;
+        int		time_d;
+        int		time_s;
+        int		time_e;
+        int		nbr_eats;
+	int		*mutixes;
+        pthread_t       *threads;
+        t_tools         *p_infos;
+}	t_philo;
 
 // prototypes
-int     ft_is_numeric(char *str);
-int     ft_perr(char *msg, int fd);
-int     init_utils(char **av, ph_tools_t *p);
-int     cnt_nbr(const char *s);
-int     ft_atoi(const char *str);
-int     parse_input(ph_tools_t *p , char **av, int ac);
-
+int	ft_is_numeric(char *str);
+int	ft_perr(char *msg, int fd);
+int	init_utils(char **av, t_philo *p);
+int	cnt_nbr(const char *s);
+int	ft_atoi(const char *str);
+int	parse_input(t_philo *p , char **av, int ac);
+int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
+int	setup_utils(t_philo *p);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:46 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/27 23:18:52 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/29 03:37:15 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int     ft_is_numeric(char *str)
 }
 
 
-int     init_utils(char **av, ph_tools_t *p)
+int     init_utils(char **av, t_philo *p)
 {
         p->ph_nbr = ft_atoi(av[1]);
         p->time_d = ft_atoi(av[2]);

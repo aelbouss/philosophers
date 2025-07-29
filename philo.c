@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/27 21:31:51 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/29 06:07:12 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,61 @@
 
 pthread_mutex_t         mutex;
 
-void    *func()
+
+void	*behaviour(void *ptr)
 {
-        pthread_mutex_lock(& mutex); 
-        printf("the thread %ld is sleeping\n", pthread_self());
-        pthread_mutex_unlock(&mutex);
-        return (NULL);
+	t_tools	*routine;
+
+	routine = (t_tools *)ptr;
+	printf("the  philo number : %d\n",routine->philo_n);
+	printf("the  philo's time to die: %d\n",routine->time_d);
+	printf("the  philo's time to eat: %d\n",routine->time_e);
+	printf("the  philo's time to sleep: %d\n",routine->time_s);
+	return (NULL);
 }
 
+int	create_threads(t_philo *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->ph_nbr)
+	{
+		if (initialize_each_philo_infos(p, &p->p_infos[i], i+1) != 0)
+			return (1);
+		if (pthread_create(&p->threads[i], NULL, behaviour, &p->p_infos[i]) != 0)
+			return (ft_perr("error due threads creation\n", 2));
+		i++;	
+	}
+	return (0);
+}
+int	join_threads(t_philo *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->ph_nbr)
+	{
+		if (pthread_join(p->threads[i], NULL) != 0)
+			return (ft_perr("Error occurs while watinng threads\n", 2));
+		i++;
+	}
+	return (0);
+}
 
 int     main(int ac, char **av)
 {
-        ph_tools_t      *p;
-        pthread_t       *threads;
-        int             i;
-        
+        t_philo      *p;
 
-        p = malloc(1 * sizeof(ph_tools_t));
+        p = malloc(1  * sizeof(t_philo));
         if (!p)
                 return (1);
         if (parse_input(p, av, ac) != 0)
                 return (1);
-        pthread_mutex_init(&mutex, NULL);
-        threads = malloc(p->ph_nbr * sizeof(pthread_t));
-        if (!threads)
-                return (ft_perr("Bad Allocation\n", 2));
-        i = 0;
-        while(i < p->ph_nbr)
-        {
-                if (pthread_create(&threads[i], NULL, func, NULL) != 0)
-                        return (ft_perr("error : failed to create a thread\n", 2));
-                i++;
-        }
-        i = 0;
-        while(i < p->ph_nbr)
-        {
-                if (pthread_join(threads[i], NULL)!= 0)
-                        return (ft_perr("error : failed to wait a tread\n", 2));
-                i++;
-        }
+	if (setup_utils(p) != 0)
+		return (1);
+	if (create_threads(p) != 0)
+		return (1);
+	join_threads(p);
         return (0);
 }

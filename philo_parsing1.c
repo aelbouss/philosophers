@@ -1,6 +1,6 @@
 #include "philosophers.h"
 
-int     is_numeric_input(char **arr, int ac, ph_tools_t *p)
+int     is_numeric_input(char **arr, int ac, t_philo *p)
 {
         int     i;
 
@@ -17,13 +17,13 @@ int     is_numeric_input(char **arr, int ac, ph_tools_t *p)
         }
         return (0);
 }
-void    error_case(ph_tools_t *p)
+void    error_case(t_philo *p)
 {
         free(p);
         ft_perr("Error : <argument out of range>\n", 2);
 }
 
-int     over_under_flow_check(ph_tools_t *p, int  ac)
+int     over_under_flow_check(t_philo *p, int  ac)
 {
         if (p->ph_nbr > INT_MAX || p->ph_nbr < INT_MIN || p->ph_nbr < 0)
                 return(error_case(p), 1);
@@ -38,10 +38,13 @@ int     over_under_flow_check(ph_tools_t *p, int  ac)
             if (p->nbr_eats > INT_MAX || p->nbr_eats < INT_MIN || p->nbr_eats < 0)
                 return(error_case(p), 1);     
         }
+	p->mutixes = malloc(p->ph_nbr * sizeof(int));
+	if (!p->mutixes)
+		return (ft_perr("Bad Allocation\n", 2));
         return (0);
 }
 
-int     parse_input(ph_tools_t *p , char **av, int ac)
+int     parse_input(t_philo *p , char **av, int ac)
 {
         if ((ac - 1) != 4 && (ac -1) != 5)
         {
