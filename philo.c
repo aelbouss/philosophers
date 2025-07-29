@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/29 06:07:12 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:41:56 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ int	create_threads(t_philo *p)
 	{
 		if (initialize_each_philo_infos(p, &p->p_infos[i], i+1) != 0)
 			return (1);
+		p->mutixes[i] = i+1;
 		if (pthread_create(&p->threads[i], NULL, behaviour, &p->p_infos[i]) != 0)
 			return (ft_perr("error due threads creation\n", 2));
+		p->mutixes[i] = i + 1;
 		i++;	
 	}
 	return (0);
@@ -72,3 +74,6 @@ int     main(int ac, char **av)
 	join_threads(p);
         return (0);
 }
+
+// must setup the mutex for synchronize the tasks
+// impliment  the  actions  (think) , (take the forks), (eat) , (put the forks down) , (sleep)

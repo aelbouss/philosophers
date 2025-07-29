@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/29 06:06:29 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:41:28 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct tools_s
 	int	time_d;
         int	time_s;
         int	time_e;
+	int	*mutixes;
 }       t_tools;
 
 // templates
