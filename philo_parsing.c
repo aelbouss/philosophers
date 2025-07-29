@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:46 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/29 03:37:15 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:02:06 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ int     ft_is_numeric(char *str)
 }
 
 
-int     init_utils(char **av, t_philo *p)
+int     init_utils(char **av, t_all *a)
 {
-        p->ph_nbr = ft_atoi(av[1]);
-        p->time_d = ft_atoi(av[2]);
-        p->time_e = ft_atoi(av[3]);
-        p->time_s = ft_atoi(av[4]);
-        p->nbr_eats = ft_atoi(av[5]);
+        a->si->ph_nbr = ft_atoi(av[1]);
+        a->si->time_d = ft_atoi(av[2]);
+        a->si->time_e = ft_atoi(av[3]);
+        a->si->time_s = ft_atoi(av[4]);
+        a->si->nbr_eats = ft_atoi(av[5]);
         return (0);
 }

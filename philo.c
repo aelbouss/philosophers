@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/29 18:41:56 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:05:09 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,29 @@ void	*behaviour(void *ptr)
 	return (NULL);
 }
 
-int	create_threads(t_philo *p)
+int	create_threads(t_all *a)
 {
 	int	i;
 
 	i = 0;
-	while (i < p->ph_nbr)
+	while (i < a->si->ph_nbr)
 	{
-		if (initialize_each_philo_infos(p, &p->p_infos[i], i+1) != 0)
-			return (1);
-		p->mutixes[i] = i+1;
-		if (pthread_create(&p->threads[i], NULL, behaviour, &p->p_infos[i]) != 0)
-			return (ft_perr("error due threads creation\n", 2));
-		p->mutixes[i] = i + 1;
-		i++;	
+		initialize_each_philo_infos(a->si, &a->si->infos[i], i + 1);
+		if(pthread_create(&a->si->threads[i], NULL, behaviour, &a->si->infos[i]) != 0)
+			return (ft_perr("error while creating threads\n", 2));
+		printf("\n#####################################################################\n");
+		i++;
 	}
 	return (0);
 }
-int	join_threads(t_philo *p)
+int	join_threads(t_all *a)
 {
 	int	i;
 
 	i = 0;
-	while (i < p->ph_nbr)
+	while (i < a->si->ph_nbr)
 	{
-		if (pthread_join(p->threads[i], NULL) != 0)
+		if (pthread_join(a->si->threads[i], NULL) != 0)
 			return (ft_perr("Error occurs while watinng threads\n", 2));
 		i++;
 	}
@@ -60,18 +58,24 @@ int	join_threads(t_philo *p)
 
 int     main(int ac, char **av)
 {
-        t_philo      *p;
+	t_all	*global;
 
-        p = malloc(1  * sizeof(t_philo));
-        if (!p)
+        global = malloc(1  * sizeof(t_all));
+        if (!global)
                 return (1);
-        if (parse_input(p, av, ac) != 0)
+	global->si = malloc(1  * sizeof(t_philo));
+	if (!global->si)
+		return (1);
+	global->pi = malloc(1 * sizeof(t_tools));
+	if (!global->pi)
+		return (1);
+        if (parse_input(global, av, ac) != 0)
                 return (1);
-	if (setup_utils(p) != 0)
+	if (setup_utils(global) != 0)
 		return (1);
-	if (create_threads(p) != 0)
+	if (create_threads(global) != 0)
 		return (1);
-	join_threads(p);
+	join_threads(global);
         return (0);
 }
 

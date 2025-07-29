@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/29 18:41:28 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:00:16 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <limits.h>
 
 
+// templates
+
 typedef struct tools_s
 {
         int     nbr_eats;
@@ -32,10 +34,8 @@ typedef struct tools_s
 	int	time_d;
         int	time_s;
         int	time_e;
-	int	*mutixes;
 }       t_tools;
 
-// templates
 typedef struct  s_philo
 {
         int		ph_nbr;
@@ -45,17 +45,25 @@ typedef struct  s_philo
         int		nbr_eats;
 	int		*mutixes;
         pthread_t       *threads;
-        t_tools         *p_infos;
+	t_tools		*infos;	
 }	t_philo;
+
+typedef	struct s_all
+{
+	t_tools	*pi;
+	t_philo	*si;
+}	t_all;
+
 
 // prototypes
 int	ft_is_numeric(char *str);
 int	ft_perr(char *msg, int fd);
-int	init_utils(char **av, t_philo *p);
+int	init_utils(char **av, t_all *a);
 int	cnt_nbr(const char *s);
 int	ft_atoi(const char *str);
-int	parse_input(t_philo *p , char **av, int ac);
+int     parse_input(t_all *a, char **av, int ac);
 int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
-int	setup_utils(t_philo *p);
+int	setup_utils(t_all *a);
+int	join_threads(t_all *a);
 
 #endif
