@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/30 00:00:16 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/31 04:40:18 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@
 
 typedef struct tools_s
 {
-        int     nbr_eats;
-        int     philo_id;
-        int     philo_n;
-	int	left_fork;
-	int	right_fork;
-	int	time_d;
-        int	time_s;
-        int	time_e;
+        int     	nbr_eats;
+        int     	philo_id;
+        int     	philo_n;
+	int		l_f;
+	int		r_f;
+	int		time_d;
+        int		time_s;
+        int		time_e;
+	pthread_mutex_t	*mutixes;
 }       t_tools;
 
 typedef struct  s_philo
@@ -43,7 +44,7 @@ typedef struct  s_philo
         int		time_s;
         int		time_e;
         int		nbr_eats;
-	int		*mutixes;
+	pthread_mutex_t	*mutixes;
         pthread_t       *threads;
 	t_tools		*infos;	
 }	t_philo;
@@ -65,5 +66,7 @@ int     parse_input(t_all *a, char **av, int ac);
 int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
 int	setup_utils(t_all *a);
 int	join_threads(t_all *a);
+int	initialize_forks(t_all *a);
+void	th_sleep(int time);
 
 #endif

@@ -6,13 +6,15 @@ int	setup_utils(t_all *a)
 		return (ft_perr("Bad Address\n", 2));
 	a->si->infos = malloc(a->si->ph_nbr * sizeof(t_tools));
 	if (!a->si->infos)
-		return (ft_perr("Bad Allocation 2\n",  2));
+		return (ft_perr("Bad Allocation\n",  2));
 	a->si->threads = malloc(a->si->ph_nbr * sizeof(pthread_t));
 	if (!a->si->threads)
-		return (ft_perr("Bad Allocation 3\n",  2));
-	a->si->mutixes = malloc(a->si->ph_nbr * sizeof(int));
+		return (ft_perr("Bad Allocation\n",  2));
+	a->si->mutixes = malloc(a->si->ph_nbr * sizeof(pthread_mutex_t));
 	if (!a->si->mutixes)
-		return (ft_perr("Bad Allocation 4\n",  2));
+		return (ft_perr("Bad Allocation\n",  2));
+	if (initialize_forks(a) != 0)
+		return (ft_perr("error occcurs while setting up the forks\n",  2));
 	return (0);
 }
 int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n)
@@ -23,12 +25,35 @@ int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n)
 	infos->time_d = p->time_d;
 	infos->time_e = p->time_e;
 	infos->time_s = p->time_s;
+	infos->mutixes = p->mutixes;
 	return(0);
 }
-/*
-int	take_forks(t_tools *t, int pn)
+
+int	initialize_forks(t_all *a)
 {
-	if (!t)
+	int	i;
+
+	if (!a)
 		return (ft_perr("Bad Address\n", 2));
+	i = 0;
+	while(i < a->si->ph_nbr)
+	{
+		if (i + 1 == a->si->ph_nbr)
+		{
+			a->si->infos[i].r_f = 0;
+			a->si->infos[i].l_f = i;
+			return (0);
+		}
+		a->si->infos[i].l_f = i;
+		a->si->infos[i].r_f = i + 1;
+		i++;
+	}
+	return (0);
 }
-*/
+
+void	th_sleep(int time)
+{
+	usleep(time * 1000);
+}
+
+// when  usleep  gives  correct  results 

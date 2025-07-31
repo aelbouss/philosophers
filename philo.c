@@ -6,24 +6,35 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/30 00:05:09 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/07/31 04:41:50 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-pthread_mutex_t         mutex;
-
 
 void	*behaviour(void *ptr)
 {
 	t_tools	*routine;
+	int	l;
+	int	r;
 
 	routine = (t_tools *)ptr;
-	printf("the  philo number : %d\n",routine->philo_n);
+	l = routine->l_f;
+	r = routine->r_f;
+	pthread_mutex_lock(&routine->mutixes[l]);
+	pthread_mutex_lock(&routine->mutixes[r]);
+	th_sleep(routine->time_e);
+	pthread_mutex_unlock(&routine->mutixes[l]);
+	pthread_mutex_unlock(&routine->mutixes[r]);
+	/*printf("the  philo number : %d\n",routine->philo_n);
 	printf("the  philo's time to die: %d\n",routine->time_d);
 	printf("the  philo's time to eat: %d\n",routine->time_e);
 	printf("the  philo's time to sleep: %d\n",routine->time_s);
+	printf("the  philo's left forks : %d\n", routine->l_f);
+	printf("the  philo's right forks : %d\n", routine->r_f); */
+	printf("the philo %d start eating\n", routine->philo_n);
+	printf("\n#####################################################################\n");
 	return (NULL);
 }
 
@@ -37,7 +48,6 @@ int	create_threads(t_all *a)
 		initialize_each_philo_infos(a->si, &a->si->infos[i], i + 1);
 		if(pthread_create(&a->si->threads[i], NULL, behaviour, &a->si->infos[i]) != 0)
 			return (ft_perr("error while creating threads\n", 2));
-		printf("\n#####################################################################\n");
 		i++;
 	}
 	return (0);
