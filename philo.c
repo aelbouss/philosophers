@@ -6,34 +6,19 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/31 04:41:50 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/01 05:00:11 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 
-void	*behaviour(void *ptr)
+void	*behaviour(void *info)
 {
-	t_tools	*routine;
-	int	l;
-	int	r;
+	t_tools *pi;
 
-	routine = (t_tools *)ptr;
-	l = routine->l_f;
-	r = routine->r_f;
-	pthread_mutex_lock(&routine->mutixes[l]);
-	pthread_mutex_lock(&routine->mutixes[r]);
-	th_sleep(routine->time_e);
-	pthread_mutex_unlock(&routine->mutixes[l]);
-	pthread_mutex_unlock(&routine->mutixes[r]);
-	/*printf("the  philo number : %d\n",routine->philo_n);
-	printf("the  philo's time to die: %d\n",routine->time_d);
-	printf("the  philo's time to eat: %d\n",routine->time_e);
-	printf("the  philo's time to sleep: %d\n",routine->time_s);
-	printf("the  philo's left forks : %d\n", routine->l_f);
-	printf("the  philo's right forks : %d\n", routine->r_f); */
-	printf("the philo %d start eating\n", routine->philo_n);
+	pi = (t_tools *)info;
+	take_forks(pi);
 	printf("\n#####################################################################\n");
 	return (NULL);
 }

@@ -1,19 +1,24 @@
-CC=cc
-CFLAGS=  -Wall -Werror -Wextra
-NAME= philosophers
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+NAME = philo
 
-SRCS = philo.c philo_parsing.c philo_parsing1.c
+SRCS = philo.c philo_parsing.c philo_parsing1.c philo_tasks.c philo_tasks1.c
+OBJS = $(SRCS:.c=.o)
 
- OBJS=$(SRCS:.c=.o)
+all: $(NAME)
 
-NAME: $(objs)
-	cc $(CFLAGS) $(OBJS) -o $(NAME)
-%.o : %.c
-	cc $(FLAGS) -c $< -o $@ 
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -rf $(objs)
+	rm -rf $(OBJS)
+
 fclean: clean
 	rm -rf $(NAME)
+
 re: fclean all
 
-.SECONDARY : $(objs)
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/31 04:40:18 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/01 04:47:40 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ int	setup_utils(t_all *a);
 int	join_threads(t_all *a);
 int	initialize_forks(t_all *a);
 void	th_sleep(int time);
+void	take_forks(t_tools *pi);
 
 #endif
