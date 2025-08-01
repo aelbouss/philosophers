@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/01 05:00:11 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/01 18:49:36 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	*behaviour(void *info)
 
 	pi = (t_tools *)info;
 	take_forks(pi);
-	printf("\n#####################################################################\n");
+	eating(pi);
+	put_the_forks_down(pi);
+	sleeping(pi);
+	//thinking(pi);
 	return (NULL);
 }
 
