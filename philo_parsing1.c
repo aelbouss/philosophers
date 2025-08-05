@@ -50,6 +50,7 @@ int     parse_input(t_all *a, char **av, int ac)
         {
                 free(a);
                 ft_perr("Error : <Invalid Number Of Args>\n", 2);
+		// free all ;
                 return (1);
         }
         if (is_numeric_input(av, ac , a) != 0)

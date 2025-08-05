@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/01 18:49:27 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/02 01:53:22 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <sys/time.h>
 
 
 // templates
@@ -67,11 +68,11 @@ int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
 int	setup_utils(t_all *a);
 int	join_threads(t_all *a);
 int	initialize_forks(t_all *a);
-void	th_sleep(int time);
-void	take_forks(t_tools *pi);
+void	take_forks(t_tools *pi, long start_t);
 void	put_the_forks_down(t_tools *pi);
-void	eating(t_tools *pi);
-void	thinking(t_tools *pi);
-void	sleeping(t_tools *pi);
+void	eating(t_tools *pi, long start_t);
+void	thinking(t_tools *pi, long start_t);
+void	sleeping(t_tools *pi, long start_t);
+long	get_time_stamp(void);
 
 #endif

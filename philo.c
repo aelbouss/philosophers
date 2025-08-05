@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/01 18:49:36 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:12:07 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 
 void	*behaviour(void *info)
 {
-	t_tools *pi;
+	t_tools 	*pi;
+	long int	start_t;
 
 	pi = (t_tools *)info;
-	take_forks(pi);
-	eating(pi);
-	put_the_forks_down(pi);
-	sleeping(pi);
-	//thinking(pi);
+	start_t = get_time_stamp();
+	while (1)
+	{
+		take_forks(pi, start_t);
+		eating(pi, start_t);
+		put_the_forks_down(pi);
+		sleeping(pi, start_t);
+	thinking(pi, start_t);
+	}
 	return (NULL);
 }
 
