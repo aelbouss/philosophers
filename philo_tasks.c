@@ -26,6 +26,8 @@ int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n)
 	infos->time_e = p->time_e;
 	infos->time_s = p->time_s;
 	infos->mutixes = p->mutixes;
+	infos->threads =  p->threads;
+	infos->ph_nbr = p->ph_nbr;
 	return(0);
 }
 
