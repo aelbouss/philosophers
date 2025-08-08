@@ -6,25 +6,24 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:46 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/07/30 00:02:06 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/07 22:53:49 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int     ft_perr(char *msg, int fd)
+void	ft_perr(char *msg, int fd)
 {
         int     i;
 
         if (!msg)
-                return (1);
+                return;
         i = 0;
         while (msg[i])
         {
                 write(fd, &msg[i], 1);
                 i++;
         }
-        return (1);
 }
 
 int	cnt_nbr(const char *s)
@@ -65,6 +64,8 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
+
+
 int     ft_is_numeric(char *str)
 {
         int     i;
@@ -81,13 +82,22 @@ int     ft_is_numeric(char *str)
         return (0);
 }
 
-
-int     init_utils(char **av, t_all *a)
+int     over_under_flow_check(char **av, int  ac)
 {
-        a->si->ph_nbr = ft_atoi(av[1]);
-        a->si->time_d = ft_atoi(av[2]);
-        a->si->time_e = ft_atoi(av[3]);
-        a->si->time_s = ft_atoi(av[4]);
-        a->si->nbr_eats = ft_atoi(av[5]);
-        return (0);
+
+	int	i;
+	int	arg;
+
+	i =  1;
+	while (i < ac)
+	{
+		arg = ft_atoi(av[i]);
+		if (arg >= INT_MAX || arg <= INT_MIN || arg < 1)
+		{
+			ft_perr("<usage> : Invalid Arguments\n", 2);
+			return (1);
+		}
+		i++;
+	}
+	return  (0);
 }

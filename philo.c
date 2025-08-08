@@ -6,13 +6,13 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/06 22:20:42 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:38:53 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-
+/*
 void	*behaviour(void *info)
 {
 	t_tools 	*pi;
@@ -63,26 +63,24 @@ int	join_threads(t_all *a)
 	return (0);
 }
 
+*/
 int     main(int ac, char **av)
 {
 	t_all	*global;
 
-        global = malloc(1  * sizeof(t_all));
-        if (!global)
-                return (1);
-	global->si = malloc(1  * sizeof(t_philo));
-	if (!global->si)
+	
+	if (parse_input(av, ac) != 0)
 		return (1);
-	global->pi = malloc(1 * sizeof(t_tools));
-	if (!global->pi)
+	global = prepare_environement(av, ac);
+	if (!global)
 		return (1);
-        if (parse_input(global, av, ac) != 0)
-                return (1);
-	if (setup_utils(global) != 0)
-		return (1);
+	if (initialize_forks(global) != 0)
+		return  (1);
 	if (create_threads(global) != 0)
 		return (1);
+	/*
 	join_threads(global);
+	*/
         return (0);
 }
 

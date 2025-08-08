@@ -1,15 +1,7 @@
 #include "philosophers.h"
 
-long	get_time_stamp(void)
-{
-	struct timeval tv;
-	long	ms_time;
+/*
 
-	if (gettimeofday(&tv, NULL) != 0)
-		return (0);
-	ms_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-	return (ms_time);
-}
 
 int	threads_claim(pthread_t *threads, int pn)
 {
@@ -45,4 +37,6 @@ int	is_dead(t_tools * pi, long start_t)
 		return (1);
 	}
 	return (0);
-}	
+}
+*/
+
