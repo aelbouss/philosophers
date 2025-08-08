@@ -1,62 +1,40 @@
 #include "philosophers.h"
 
-int	take_forks(t_tools *pi)
+void	take_forks(t_tools *pi)
 {
-	int	l;
-	int	r;
+	int	left;
+	int	right;
 
-	l = pi->l_f;
-	r = pi->r_f;
-	pthread_mutex_lock(&pi->data->mutixes[l]);
-	pthread_mutex_lock(&pi->data->mutixes[r]);
+	left = pi->l_f;
+	right = pi->r_f;
+	pthread_mutex_lock(&pi->data->mutixes[left]);
+	pthread_mutex_lock(&pi->data->mutixes[right]);
 	pi->l_meal_e = (get_time_stamp() - pi->data->start_t);
-	printf("%ld %d has taken the left fork\n",(get_time_stamp() - pi->data->start_t), pi->philo_nbr);
-	printf("%ld %d has taken the right fork\n", (get_time_stamp() -pi->data->start_t), pi->philo_nbr);
-	return  (0);
+	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
+	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 }
 
-/*void	put_the_forks_down(t_tools *pi)
+void	eating(t_tools *pi)
 {
-	int	l;
-	int	r;
-
-	l = pi->l_f;
-	r = pi->r_f;
-	pthread_mutex_unlock(&pi->mutixes[l]);
-	pthread_mutex_unlock(&pi->mutixes[r]);
-}	
-
-int	eating(t_tools *pi, long start_t)
-{
-	(void)start_t;
-	if (is_dead(pi, start_t) != 0)
-		return (1);
-	printf("%ld %d is eating\n", pi->l_meal_e, pi->philo_n);
-	usleep(pi->time_s * 1000);
-	return (0);
-}
-int	sleeping(t_tools *pi, long start_t)
-{
-	if (is_dead(pi, start_t) != 0)
-		return (1);
-	printf("%ld %d is sleeping\n",(get_time_stamp() - start_t), pi->philo_n);
-	usleep(pi->time_s * 1000);
-	return  (0);
+	desplay_logs(pi->philo_nbr, "is eating", pi->data);
+	usleep(pi->data->time_e * 1000);
 }
 
-int	thinking(t_tools *pi, long start_t)
+void	put_the_forks_down(t_tools *pi)
 {
-	if (is_dead(pi, start_t) != 0)
-		return (1);
-	printf("%ld %d is thinking\n", (get_time_stamp() - start_t), pi->philo_n);
-	return  (0);
+	int	left;
+	int	right;
+
+	left = pi->l_f;
+	right = pi->r_f;
+	pthread_mutex_unlock(&pi->data->mutixes[left]);
+	pthread_mutex_unlock(&pi->data->mutixes[right]);
 }
-*/
 
 void	desplay_logs(int philo_nbr, char *log, t_philo *sh)
 {
 	pthread_mutex_lock(&sh->despaly_lock);
-	printf("%ld %d %s\n", (get_time_stamp - sh->start_t), philo_nbr, log);
+	printf("%ld %d %s\n", (get_time_stamp() - sh->start_t), philo_nbr, log);
 	pthread_mutex_unlock(&sh->despaly_lock);
 }
 
@@ -65,7 +43,7 @@ int	init_mutixes_infos(t_all *g)
 	int	i;
 
 	i = 0;
-	pthhread_mutex_init(g->shared_data->despaly_lock);
+	pthread_mutex_init(&g->shared_data->despaly_lock, NULL);
 	while (i < g->shared_data->ph_nbr)
 	{
 		if (initialize_each_philo_infos(g->shared_data, &g->private_data[i], i + 1) != 0)

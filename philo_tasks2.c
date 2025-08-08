@@ -40,3 +40,13 @@ int	is_dead(t_tools * pi, long start_t)
 }
 */
 
+
+void	sleeping(t_tools *pi)
+{
+	desplay_logs(pi->philo_nbr, "is sleeping", pi->data);
+	usleep(pi->data->time_s * 1000);
+}
+void 	thinking(t_tools *pi)
+{
+	desplay_logs(pi->philo_nbr, "is thinking", pi->data);
+}

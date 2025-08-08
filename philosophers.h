@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/08 22:59:12 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/09 00:22:16 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,14 @@ int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
 void	*behaviour(void *info);
 int	join_threads(t_all *g);
 int	create_threads(t_all *g);
-int	take_forks(t_tools *pi);
 int	init_mutixes_infos(t_all *g);
 int	setup_philos_utils(t_all *g);
+void	desplay_logs(int philo_nbr, char *log, t_philo *sh);
+void	eating(t_tools *pi);
+void	take_forks(t_tools *pi);
+void	put_the_forks_down(t_tools *pi);
+void	sleeping(t_tools *pi);
+void 	thinking(t_tools *pi);
 
 
 #endif

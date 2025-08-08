@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/08 22:28:48 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/09 00:23:05 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,15 @@ void	*behaviour(void *info)
 	t_tools 	*pi;
 
 	pi = (t_tools *)info;
-	printf("im the philo %d\n", pi->philo_nbr);
-	printf("the start  time  is  %ld\n",(get_time_stamp() - pi->data->start_t));
-	/*while (1)
-	{
-		
-		if (eating(pi, start_t) != 0)
-			break;
-		put_the_forks_down(pi);
-		if (sleeping(pi, start_t) != 0)
-			break;
-		if (thinking(pi, start_t) != 0)
-			break;
-	}
-			*/
+
+		while (1)
+		{
+			take_forks(pi);
+			eating(pi);
+			put_the_forks_down(pi);
+			sleeping(pi);
+			thinking(pi);
+		}
 	return (NULL);
 }
 
