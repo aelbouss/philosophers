@@ -64,17 +64,17 @@ void	ft_free(t_all *a, int flag)
 	if (flag == 2)
 	{
 		free(a->threads);
-		free(a->mutixes);
+		free(a->shared_data);
 		free(a);
 		return;
 	}
 	if (flag == 3 || flag == 4)
 	{
 		free(a->threads);
-		free(a->mutixes);
+		free(a->shared_data);
 		free(a->private_data);
 		if (flag == 4)
-			free(a->shared_data);
+			free(a->shared_data->mutixes);
 		free(a);
 		return ;
 	}
@@ -93,18 +93,15 @@ t_all	*prepare_environement(char **av, int ac)
 	global->threads = malloc(pn * sizeof(pthread_t));
 	if (!global->threads)
 		return (ft_free(global, 1), NULL);
-	global->mutixes = malloc(pn * sizeof(pthread_mutex_t));
-	if (!global->mutixes)
-		return (ft_free(global, 2), NULL);
 	global->private_data = malloc(pn * sizeof(t_tools));
 	if (!global->private_data)
 		return (ft_free(global, 3), NULL);
 	global->shared_data = malloc(1 * sizeof(t_philo));
 	if (!global->shared_data)
 		return (ft_free(global, 4), NULL);
-	global->philo_infos = malloc(pn * sizeof(t_tools));
-	if (!global)
-		return (NULL);
+	global->shared_data->mutixes = malloc(pn * sizeof(pthread_mutex_t));
+	if (!global->shared_data->mutixes)
+		return (ft_free(global, 2), NULL);
 	init_infos(data, global, ac, av);
 	return (global);
 }

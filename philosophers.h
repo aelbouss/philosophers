@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/08 16:37:21 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/08 22:26:43 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ typedef struct  s_philo
 	int		ph_nbr;
 	int		nbr_eats;
 	long		start_t;
+	pthread_mutex_t	*mutixes;
 }	t_philo;
 
 
 typedef struct tools_s
 {
         int     	nbr_eats;
-        int     	philo_n;
 	long		l_meal_e;
 	int		l_f;
 	int		r_f;
-	int		phi_n;
+	int		philo_nbr;
 	t_philo		*data;
 }       t_tools;
 
@@ -54,8 +54,6 @@ typedef	struct	s_all
 	t_philo		*shared_data;
 	t_tools		*private_data;
 	pthread_t	*threads;
-	pthread_mutex_t	*mutixes;
-	t_tools		*philo_infos;
 	int		death_flag;
 	pthread_mutex_t	death_lock;
 }	t_all;
@@ -78,6 +76,13 @@ t_all	*prepare_environement(char **av, int ac);
 void	ft_free(t_all *a, int flag);
 long	get_time_stamp(void);
 int	initialize_forks(t_all *g);
+int	initialize_each_philo_infos(t_philo *p, t_tools *infos, int philo_n);
+void	*behaviour(void *info);
+int	join_threads(t_all *g);
+int	create_threads(t_all *g);
+int	take_forks(t_tools *pi);
+int	init_mutixes_infos(t_all *g);
+int	setup_philos_utils(t_all *g);
 
 
 #endif
