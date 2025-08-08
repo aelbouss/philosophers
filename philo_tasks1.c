@@ -51,12 +51,21 @@ int	thinking(t_tools *pi, long start_t)
 	printf("%ld %d is thinking\n", (get_time_stamp() - start_t), pi->philo_n);
 	return  (0);
 }
-	*/
+*/
+
+void	desplay_logs(int philo_nbr, char *log, t_philo *sh)
+{
+	pthread_mutex_lock(&sh->despaly_lock);
+	printf("%ld %d %s\n", (get_time_stamp - sh->start_t), philo_nbr, log);
+	pthread_mutex_unlock(&sh->despaly_lock);
+}
+
 int	init_mutixes_infos(t_all *g)
 {
 	int	i;
 
 	i = 0;
+	pthhread_mutex_init(g->shared_data->despaly_lock);
 	while (i < g->shared_data->ph_nbr)
 	{
 		if (initialize_each_philo_infos(g->shared_data, &g->private_data[i], i + 1) != 0)

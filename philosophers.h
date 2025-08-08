@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/08 22:26:43 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/08 22:59:12 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct  s_philo
 	int		nbr_eats;
 	long		start_t;
 	pthread_mutex_t	*mutixes;
+	pthread_mutex_t	despaly_lock;
 }	t_philo;
 
 
