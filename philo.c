@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/09 00:23:05 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/09 04:15:47 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ void	*behaviour(void *info)
 
 		while (1)
 		{
+			pthread_mutex_lock(&pi->data->death_lock);
+			if (pi->data->death_flag == 1)
+			{
+				pthread_mutex_unlock(&pi->data->death_lock);
+				break;
+			}
+			pthread_mutex_unlock(&pi->data->death_lock);
 			take_forks(pi);
 			eating(pi);
 			put_the_forks_down(pi);
@@ -58,6 +65,7 @@ int     main(int ac, char **av)
 		return (1);
 	if (create_threads(global) != 0)
 		return (1);
+	is_dead(global->private_data, global);
 	join_threads(global);
         return (0);
 }

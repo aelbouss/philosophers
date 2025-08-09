@@ -7,9 +7,19 @@ void	take_forks(t_tools *pi)
 
 	left = pi->l_f;
 	right = pi->r_f;
-	pthread_mutex_lock(&pi->data->mutixes[left]);
-	pthread_mutex_lock(&pi->data->mutixes[right]);
-	pi->l_meal_e = (get_time_stamp() - pi->data->start_t);
+	if (pi->philo_nbr % 2 == 0)
+	{
+		pthread_mutex_lock(&pi->data->mutixes[left]);
+		pthread_mutex_lock(&pi->data->mutixes[right]);
+	}
+	else
+	{
+		pthread_mutex_lock(&pi->data->mutixes[right]);
+		pthread_mutex_lock(&pi->data->mutixes[left]);
+	}
+	pthread_mutex_lock(&pi->data->time_mutex);
+	pi->l_meal_e = get_time_stamp();
+	pthread_mutex_unlock(&pi->data->time_mutex);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 }
@@ -17,7 +27,7 @@ void	take_forks(t_tools *pi)
 void	eating(t_tools *pi)
 {
 	desplay_logs(pi->philo_nbr, "is eating", pi->data);
-	usleep(pi->data->time_e * 1000);
+	ft_usleep(pi->data->time_e);
 }
 
 void	put_the_forks_down(t_tools *pi)
@@ -33,9 +43,14 @@ void	put_the_forks_down(t_tools *pi)
 
 void	desplay_logs(int philo_nbr, char *log, t_philo *sh)
 {
-	pthread_mutex_lock(&sh->despaly_lock);
-	printf("%ld %d %s\n", (get_time_stamp() - sh->start_t), philo_nbr, log);
-	pthread_mutex_unlock(&sh->despaly_lock);
+	pthread_mutex_lock(&sh->death_lock);
+	if (sh->death_flag != 1)
+	{
+		printf("%ld %d %s\n", (get_time_stamp() - sh->start_t), philo_nbr, log);
+		pthread_mutex_unlock(&sh->death_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&sh->death_lock);
 }
 
 int	init_mutixes_infos(t_all *g)
@@ -43,7 +58,8 @@ int	init_mutixes_infos(t_all *g)
 	int	i;
 
 	i = 0;
-	pthread_mutex_init(&g->shared_data->despaly_lock, NULL);
+	pthread_mutex_init(&g->shared_data->death_lock, NULL);
+	pthread_mutex_init(&g->shared_data->time_mutex, NULL);
 	while (i < g->shared_data->ph_nbr)
 	{
 		if (initialize_each_philo_infos(g->shared_data, &g->private_data[i], i + 1) != 0)

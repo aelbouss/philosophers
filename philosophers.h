@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/09 00:22:16 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/09 04:18:45 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,28 @@
 
 typedef struct  s_philo
 {
-	int		time_d;
-        int		time_s;
-        int		time_e;
-	int		ph_nbr;
-	int		nbr_eats;
-	long		start_t;
+	int				time_d;
+    int				time_s;
+    int				time_e;
+	int				ph_nbr;
+	int				nbr_eats;
+	int				death_flag;
+	long			start_t;
 	pthread_mutex_t	*mutixes;
-	pthread_mutex_t	despaly_lock;
+	pthread_mutex_t	death_lock;
+	pthread_mutex_t	time_mutex;
 }	t_philo;
 
 
 typedef struct tools_s
 {
-        int     	nbr_eats;
-	long		l_meal_e;
-	int		l_f;
-	int		r_f;
-	int		philo_nbr;
-	t_philo		*data;
-}       t_tools;
+    int				nbr_eats;
+	long			l_meal_e;
+	int				l_f;
+	int				r_f;
+	int				philo_nbr;
+	t_philo			*data;
+}	t_tools;
 
 
 typedef	struct	s_all
@@ -55,8 +57,6 @@ typedef	struct	s_all
 	t_philo		*shared_data;
 	t_tools		*private_data;
 	pthread_t	*threads;
-	int		death_flag;
-	pthread_mutex_t	death_lock;
 }	t_all;
 
 
@@ -89,6 +89,8 @@ void	take_forks(t_tools *pi);
 void	put_the_forks_down(t_tools *pi);
 void	sleeping(t_tools *pi);
 void 	thinking(t_tools *pi);
+void	ft_usleep(int ms);
+void	is_dead(t_tools *pi, t_all *g);
 
 
 #endif

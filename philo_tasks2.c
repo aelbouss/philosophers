@@ -1,52 +1,52 @@
 #include "philosophers.h"
 
-/*
-
-
-int	threads_claim(pthread_t *threads, int pn)
-{
-	int	i;
-
-	if  (!threads || pn < 2)
-		return (1);
-	i = 0;
-	while(i < pn)
-	{
-		if (pthread_join(threads[i], NULL) != 0)
-		{
-			ft_perr("error occurs whiler joining  threads\n", 2);
-			return (1);
-		}
-		printf("hereeee\n");
-		i++;
-		
-	}
-	return (0);
-}
-
-int	is_dead(t_tools * pi, long start_t)
-{
-	long	time_s;
-	//  if (current_time - last_meal_eaten >= time_to_die) ;
-	time_s = (get_time_stamp() - start_t);
-	if ((time_s - pi->l_meal_e) >= pi->time_d)
-	{
-		printf("%ld %d is died\n", time_s, pi->philo_n);
-		if(threads_claim(pi->threads, pi->ph_nbr) != 0)
-			return (1);
-		return (1);
-	}
-	return (0);
-}
-*/
-
-
 void	sleeping(t_tools *pi)
 {
 	desplay_logs(pi->philo_nbr, "is sleeping", pi->data);
-	usleep(pi->data->time_s * 1000);
+	ft_usleep(pi->data->time_s);
 }
 void 	thinking(t_tools *pi)
 {
-	desplay_logs(pi->philo_nbr, "is thinking", pi->data);
+		desplay_logs(pi->philo_nbr, "is thinking", pi->data);
+}
+
+void	is_dead(t_tools *pi, t_all *g)
+{
+	int	i;
+
+	pthread_mutex_lock(&pi->data->death_lock);
+	while (pi->data->death_flag != 1)
+	{
+		pthread_mutex_unlock(&pi->data->death_lock);
+		i = 0;
+		while (i < pi->data->ph_nbr)
+		{
+			pthread_mutex_lock(&pi->data->time_mutex);
+			if (((get_time_stamp() - pi->data->start_t) - g->private_data[i].l_meal_e) > g->shared_data[i].time_d)
+			{
+
+				printf("simulatoin starts  at : %ld\n", (get_time_stamp() - pi->data->start_t));
+				printf("time  spended : %ld\n", (get_time_stamp() - pi->data->start_t) - g->private_data[i].l_meal_e);
+				printf("time to  die : %d\n",g->shared_data[i].time_d);
+				pthread_mutex_unlock(&pi->data->time_mutex);
+				desplay_logs(pi->philo_nbr, "is dead", pi->data);
+				pthread_mutex_lock(&pi->data->death_lock);
+				pi->data->death_flag = 1;
+				pthread_mutex_unlock(&pi->data->death_lock);
+				break;
+			}
+			pthread_mutex_unlock(&pi->data->time_mutex);
+			i++;
+		}
+	}
+	//pthread_mutex_unlock(&pi->data->death_lock);
+}
+
+void	ft_usleep(int ms)
+{
+	long	start;
+
+	start = get_time_stamp();
+	while ((get_time_stamp() - start) < ms)
+		usleep(100); // 0, 01 mill sec
 }
