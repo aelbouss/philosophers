@@ -18,7 +18,7 @@ void	take_forks(t_tools *pi)
 		pthread_mutex_lock(&pi->data->mutixes[left]);
 	}
 	pthread_mutex_lock(&pi->data->death_mutex);
-	pi->l_meal_e = get_time_stamp();
+	pi->l_meal_e = get_time_stamp() - pi->data->start_t;
 	pthread_mutex_unlock(&pi->data->death_mutex);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);

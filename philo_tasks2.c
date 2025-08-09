@@ -20,7 +20,8 @@ void	is_dead(t_tools *pi, t_all *g)
 		i = 0;
 		while(i < g->shared_data->ph_nbr)
 		{
-			if ((get_time_stamp() - g->private_data[i].l_meal_e) > g->shared_data->time_d)
+			pthread_mutex_lock(&g->shared_data->death_mutex);
+			if (((get_time_stamp()- g->shared_data->start_t)- g->private_data[i].l_meal_e) > g->shared_data->time_d)
 			{
 				g->shared_data->death_flag = 1;
 				printf("%ld %d is dead\n",(get_time_stamp() - g->shared_data->start_t), g->private_data[i].philo_nbr);
