@@ -18,6 +18,8 @@ int	initialize_each_philo_infos(t_philo *shared_d, t_tools *private_d, int philo
 	private_d->data = shared_d;
 	private_d->philo_nbr = philo_n;
 	private_d->nbr_eats = 0;
+	private_d->data->death_flag = 0;
+	private_d->l_meal_e = 0;
 	return(0);
 }
 

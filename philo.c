@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/09 04:15:47 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:42:10 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ void	*behaviour(void *info)
 
 	pi = (t_tools *)info;
 
-		while (1)
+	while (1)
+	{
+		pthread_mutex_lock(&pi->data->death_mutex);
+		if (pi->data->death_flag == 1)
 		{
-			pthread_mutex_lock(&pi->data->death_lock);
-			if (pi->data->death_flag == 1)
-			{
-				pthread_mutex_unlock(&pi->data->death_lock);
-				break;
-			}
-			pthread_mutex_unlock(&pi->data->death_lock);
-			take_forks(pi);
-			eating(pi);
-			put_the_forks_down(pi);
-			sleeping(pi);
-			thinking(pi);
+			pthread_mutex_unlock(&pi->data->death_mutex);
+			break;
 		}
+		pthread_mutex_unlock(&pi->data->death_mutex);
+		take_forks(pi);
+		eating(pi);
+		put_the_forks_down(pi);
+		sleeping(pi);
+		thinking(pi);
+	}
 	return (NULL);
 }
 
