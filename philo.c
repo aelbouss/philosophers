@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/09 18:42:10 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:33:03 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,45 @@ void	*behaviour(void *info)
 
 	pi = (t_tools *)info;
 
-	while (1)
+	if (pi->data->ph_nbr == 1)
 	{
-		pthread_mutex_lock(&pi->data->death_mutex);
-		if (pi->data->death_flag == 1)
-		{
-			pthread_mutex_unlock(&pi->data->death_mutex);
-			break;
-		}
-		pthread_mutex_unlock(&pi->data->death_mutex);
-		take_forks(pi);
-		eating(pi);
-		put_the_forks_down(pi);
-		sleeping(pi);
-		thinking(pi);
+		pthread_mutex_lock(&pi->data->mutixes[pi->l_f]);
+		desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
+		pthread_mutex_unlock(&pi->data->mutixes[pi->l_f]);
+		return (NULL);
 	}
+	if (pi->data->nbr_eats != -1)
+		simulation_with_nbr_meals(pi);
+	else
+		simulation(pi);
 	return (NULL);
 }
+
+void	simulation_with_nbr_meals(t_tools *pi)
+{
+	int	i;
+
+	i = 0;
+	while (i < pi->data->nbr_eats)
+		{
+			pthread_mutex_lock(&pi->data->death_mutex);
+			if (pi->data->death_flag == 1)
+			{
+				pthread_mutex_unlock(&pi->data->death_mutex);
+				break;
+			}
+			pthread_mutex_unlock(&pi->data->death_mutex);
+			take_forks(pi);
+			eating(pi);
+			put_the_forks_down(pi);
+			sleeping(pi);
+			thinking(pi);
+			if (pi->data->ph_nbr % 2 != 0)
+				usleep(500);
+			i++;
+	}	
+}
+
 
 int	join_threads(t_all *g)
 {
@@ -49,6 +71,18 @@ int	join_threads(t_all *g)
 		i++;
 	}
 	return (0);
+}
+
+void	check_nbr_meals(t_all *g)
+{
+	pthread_mutex_lock(&g->shared_data->meals_mutex);
+	if (g->shared_data->meals_flag == (g->shared_data->nbr_eats * g->shared_data->ph_nbr))
+	{
+		g->shared_data->all_eat++;
+		pthread_mutex_unlock(&g->shared_data->meals_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&g->shared_data->meals_mutex);
 }
 
 int     main(int ac, char **av)
@@ -65,10 +99,7 @@ int     main(int ac, char **av)
 		return (1);
 	if (create_threads(global) != 0)
 		return (1);
-	is_dead(global->private_data, global);
-	join_threads(global);
+	simulation_controller(global);
+	clean_table(global);
         return (0);
 }
-
-// must setup the mutex for synchronize the tasks
-// impliment  the  actions  (think) , (take the forks), (eat) , (put the forks down) , (sleep)

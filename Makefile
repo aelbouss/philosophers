@@ -1,8 +1,8 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 NAME = philo
 
-SRCS = philo.c philo_parsing.c philo_parsing1.c philo_tasks.c philo_tasks1.c philo_tasks2.c
+SRCS = philo.c philo_parsing.c philo_parsing1.c philo_tasks.c philo_tasks1.c philo_tasks2.c philo_tasks3.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

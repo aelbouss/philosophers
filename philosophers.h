@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:51 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/09 18:07:41 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:42:16 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ typedef struct  s_philo
 	int				time_d;
     int				time_s;
     int				time_e;
-	int				ph_nbr;
-	int				nbr_eats;
-	int				death_flag;
+	int			ph_nbr;
+	int			nbr_eats;
+	int			death_flag;
+	int			meals_flag;
+	int			all_eat;
 	long			start_t;
 	pthread_mutex_t	*mutixes;
-	pthread_mutex_t	death_lock;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meals_mutex;
 }	t_philo;
 
 
@@ -89,43 +91,13 @@ void	take_forks(t_tools *pi);
 void	put_the_forks_down(t_tools *pi);
 void	sleeping(t_tools *pi);
 void 	thinking(t_tools *pi);
-void	ft_usleep(int ms);
-void	is_dead(t_tools *pi, t_all *g);
-void	fill_philos_death_flag(t_all *g);
+void	ft_usleep(int ms, t_philo *p);
+void	simulation_controller(t_all *g);
+void	check_starvation(t_all *g);
+void	check_nbr_meals(t_all *g);
+void	simulation_with_nbr_meals(t_tools *pi);
+void	simulation(t_tools *pi);
+void	clean_table(t_all *g);
 
 
 #endif
-
-
-/*void	is_dead(t_tools *pi, t_all *g)
-{
-	int	i;
-
-	pthread_mutex_lock(&pi->data->death_lock);
-	while (pi->data->death_flag != 1)
-	{
-		pthread_mutex_unlock(&pi->data->death_lock);
-		i = 0;
-		while (i < pi->data->ph_nbr)
-		{
-			pthread_mutex_lock(&pi->data->time_mutex);
-			if (((get_time_stamp() - pi->data->start_t) - g->private_data[i].l_meal_e) > g->shared_data[i].time_d)
-			{
-
-				printf("simulatoin starts  at : %ld\n", (get_time_stamp() - pi->data->start_t));
-				printf("time  spended : %ld\n", (get_time_stamp() - pi->data->start_t) - g->private_data[i].l_meal_e);
-				printf("time to  die : %d\n",g->shared_data[i].time_d);
-				pthread_mutex_unlock(&pi->data->time_mutex);
-				desplay_logs(pi->philo_nbr, "is dead", pi->data);
-				pthread_mutex_lock(&pi->data->death_lock);
-				pi->data->death_flag = 1;
-				pthread_mutex_unlock(&pi->data->death_lock);
-				break;
-			}
-			pthread_mutex_unlock(&pi->data->time_mutex);
-			i++;
-		}
-	}
-	//pthread_mutex_unlock(&pi->data->death_lock);
-}
-*/

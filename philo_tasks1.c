@@ -9,17 +9,18 @@ void	take_forks(t_tools *pi)
 	right = pi->r_f;
 	if (pi->philo_nbr % 2 == 0)
 	{
-		pthread_mutex_lock(&pi->data->mutixes[left]);
 		pthread_mutex_lock(&pi->data->mutixes[right]);
+		pthread_mutex_lock(&pi->data->mutixes[left]);
 	}
 	else
 	{
-		pthread_mutex_lock(&pi->data->mutixes[right]);
 		pthread_mutex_lock(&pi->data->mutixes[left]);
+		pthread_mutex_lock(&pi->data->mutixes[right]);
 	}
-	pthread_mutex_lock(&pi->data->death_mutex);
+	pthread_mutex_lock(&pi->data->meals_mutex);
 	pi->l_meal_e = get_time_stamp() - pi->data->start_t;
-	pthread_mutex_unlock(&pi->data->death_mutex);
+	pi->data->meals_flag++;
+	pthread_mutex_unlock(&pi->data->meals_mutex);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 	desplay_logs(pi->philo_nbr, "has taken a fork", pi->data);
 }
@@ -27,7 +28,7 @@ void	take_forks(t_tools *pi)
 void	eating(t_tools *pi)
 {
 	desplay_logs(pi->philo_nbr, "is eating", pi->data);
-	ft_usleep(pi->data->time_e);
+	ft_usleep(pi->data->time_e, pi->data);
 }
 
 void	put_the_forks_down(t_tools *pi)
@@ -58,8 +59,9 @@ int	init_mutixes_infos(t_all *g)
 	int	i;
 
 	i = 0;
-	pthread_mutex_init(&g->shared_data->death_lock, NULL);
+	//pthread_mutex_init(&g->shared_data->death_lock, NULL);
 	pthread_mutex_init(&g->shared_data->death_mutex, NULL);
+	pthread_mutex_init(&g->shared_data->meals_mutex, NULL);
 	while (i < g->shared_data->ph_nbr)
 	{
 		if (initialize_each_philo_infos(g->shared_data, &g->private_data[i], i + 1) != 0)
