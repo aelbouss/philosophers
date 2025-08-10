@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 02:53:46 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/10 02:59:38 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 04:45:43 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ t_all	*prepare_environement(char **av, int ac)
 {
 	t_all	*global;
 	int		pn;
-	int		len;
 	int		data[5];
 
 	global = malloc(1 * sizeof(t_all));

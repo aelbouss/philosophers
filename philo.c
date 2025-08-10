@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/10 03:08:07 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 04:48:51 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	check_nbr_meals(t_all *g)
 	if (g->shared_data->meals_flag == (g->shared_data->nbr_eats * \
 			g->shared_data->ph_nbr))
 	{
-		g->shared_data->all_eat++;
+		g->shared_data->all_eat = 1;
 		pthread_mutex_unlock(&g->shared_data->meals_mutex);
 		return ;
 	}

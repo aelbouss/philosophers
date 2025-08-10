@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 03:03:15 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/10 03:05:57 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 04:52:16 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,15 @@ void	ft_usleep(int ms, t_philo *p)
 	while ((get_time_stamp() - start) < ms)
 	{
 		pthread_mutex_lock(&p->death_mutex);
-		if (p->death_flag == 1)
+		pthread_mutex_lock(&p->meals_mutex);
+		if (p->death_flag == 1 || p->all_eat == 1)
 		{
 			pthread_mutex_unlock(&p->death_mutex);
+			pthread_mutex_unlock(&p->meals_mutex);
 			return ;
 		}
 		pthread_mutex_unlock(&p->death_mutex);
+		pthread_mutex_unlock(&p->meals_mutex);
 		usleep(100);
 	}
 }
