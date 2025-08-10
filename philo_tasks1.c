@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_tasks1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 03:02:28 by aelbouss          #+#    #+#             */
+/*   Updated: 2025/08/10 03:03:02 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	take_forks(t_tools *pi)
@@ -59,12 +71,12 @@ int	init_mutixes_infos(t_all *g)
 	int	i;
 
 	i = 0;
-	//pthread_mutex_init(&g->shared_data->death_lock, NULL);
 	pthread_mutex_init(&g->shared_data->death_mutex, NULL);
 	pthread_mutex_init(&g->shared_data->meals_mutex, NULL);
 	while (i < g->shared_data->ph_nbr)
 	{
-		if (initialize_each_philo_infos(g->shared_data, &g->private_data[i], i + 1) != 0)
+		if (initialize_each_philo_infos(g->shared_data,
+				&g->private_data[i], i + 1) != 0)
 		{
 			ft_perr("Error : failedd  initializing philos\n", 2);
 			return (1);

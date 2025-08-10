@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_tasks3.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 03:06:05 by aelbouss          #+#    #+#             */
+/*   Updated: 2025/08/10 03:06:16 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	simulation(t_tools *pi)
@@ -8,7 +20,7 @@ void	simulation(t_tools *pi)
 		if (pi->data->death_flag == 1)
 		{
 			pthread_mutex_unlock(&pi->data->death_mutex);
-			return;
+			return ;
 		}
 		pthread_mutex_unlock(&pi->data->death_mutex);
 		take_forks(pi);

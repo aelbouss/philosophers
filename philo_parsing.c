@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:19:46 by aelbouss          #+#    #+#             */
-/*   Updated: 2025/08/07 22:53:49 by aelbouss         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:53:33 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	ft_perr(char *msg, int fd)
 {
-        int     i;
+	int	i;
 
-        if (!msg)
-                return;
-        i = 0;
-        while (msg[i])
-        {
-                write(fd, &msg[i], 1);
-                i++;
-        }
+	if (!msg)
+		return ;
+	i = 0;
+	while (msg[i])
+	{
+		write(fd, &msg[i], 1);
+		i++;
+	}
 }
 
 int	cnt_nbr(const char *s)
@@ -65,30 +65,28 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-
-int     ft_is_numeric(char *str)
+int	ft_is_numeric(char *str)
 {
-        int     i;
+	int	i;
 
-        if (!str)
-                return (1);
-        i = 0;
-        while (str[i])
-        {
-                if (!(str[i] >= '0' && str[i] <= '9'))
-                        return (1);
-                i++;
-        }
-        return (0);
+	if (!str)
+		return (1);
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int     over_under_flow_check(char **av, int  ac)
+int	over_under_flow_check(char **av, int ac)
 {
-
 	int	i;
 	int	arg;
 
-	i =  1;
+	i = 1;
 	while (i < ac)
 	{
 		arg = ft_atoi(av[i]);
@@ -99,5 +97,5 @@ int     over_under_flow_check(char **av, int  ac)
 		}
 		i++;
 	}
-	return  (0);
+	return (0);
 }

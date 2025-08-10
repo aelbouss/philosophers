@@ -1,34 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_parsing1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 02:53:46 by aelbouss          #+#    #+#             */
+/*   Updated: 2025/08/10 02:59:38 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
-int     is_numeric_input(char **av, int ac)
+int	is_numeric_input(char **av, int ac)
 {
-	int     i;
+	int	i;
 
-        i = 1;
-        while (i < ac)
-        {
-            if (ft_is_numeric(av[i]) != 0)
-            {
-                ft_perr("Error : <numeric arguments required>\n", 2);
-                return (1);
-            }
-            i++;
-        }
-        return (0);
+	i = 1;
+	while (i < ac)
+	{
+		if (ft_is_numeric(av[i]) != 0)
+		{
+			ft_perr("Error : <numeric arguments required>\n", 2);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-int     parse_input(char **av, int ac)
+int	parse_input(char **av, int ac)
 {
-        if ((ac - 1) != 4 && (ac -1) != 5)
-        {
-                ft_perr("Error : <Invalid Number Of Args>\n", 2);
-                return (1);
-        }
-        if (is_numeric_input(av, ac ) != 0)
-                return (1);
-        if (over_under_flow_check(av, ac) != 0)
-                return (1);
-        return (0);
+	if ((ac - 1) != 4 && (ac -1) != 5)
+	{
+		ft_perr("Error : <Invalid Number Of Args>\n", 2);
+		return (1);
+	}
+	if (is_numeric_input(av, ac) != 0)
+		return (1);
+	if (over_under_flow_check(av, ac) != 0)
+		return (1);
+	return (0);
 }
 
 void	init_infos(int *data, t_all *a, int ac, char **av)
@@ -54,19 +66,19 @@ void	init_infos(int *data, t_all *a, int ac, char **av)
 void	ft_free(t_all *a, int flag)
 {
 	if (!a)
-		return;
+		return ;
 	if (flag == 1)
 	{
 		free(a->threads);
 		free(a);
-		return;
+		return ;
 	}
 	if (flag == 2)
 	{
 		free(a->threads);
 		free(a->shared_data);
 		free(a);
-		return;
+		return ;
 	}
 	if (flag == 3 || flag == 4)
 	{
@@ -83,8 +95,9 @@ void	ft_free(t_all *a, int flag)
 t_all	*prepare_environement(char **av, int ac)
 {
 	t_all	*global;
-	int	data[ac -1];
-	int	pn;
+	int		pn;
+	int		len;
+	int		data[5];
 
 	global = malloc(1 * sizeof(t_all));
 	if (!global)
